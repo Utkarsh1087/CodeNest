@@ -27,6 +27,8 @@ import { toast } from "react-hot-toast"
 import { v4 as uuidv4 } from "uuid"
 import { useAppContext } from "./AppContext"
 import { useSocket } from "./SocketContext"
+import { useSettings } from "./SettingContext"
+import { getLanguageByExtension } from "@/utils/language"
 
 const FileContext = createContext<FileContextType | null>(null)
 
@@ -41,6 +43,7 @@ export const useFileSystem = (): FileContextType => {
 function FileContextProvider({ children }: { children: ReactNode }) {
     const { socket } = useSocket()
     const { setUsers, drawingData } = useAppContext()
+    const { setLanguage } = useSettings()
 
     const [fileStructure, setFileStructure] =
         useState<FileSystemItem>(initialFileStructure)
@@ -318,6 +321,7 @@ function FileContextProvider({ children }: { children: ReactNode }) {
             )
 
             setActiveFile(file)
+            setLanguage(getLanguageByExtension(file.name))
         }
     }
 
@@ -412,6 +416,7 @@ function FileContextProvider({ children }: { children: ReactNode }) {
 
             // Set the new file as active file
             setActiveFile(newFile)
+            setLanguage(getLanguageByExtension(newFile.name))
 
             if (!sendToSocket) return newFile.id
             socket.emit(SocketEvent.FILE_CREATED, {

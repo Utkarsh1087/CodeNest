@@ -110,20 +110,42 @@ function Editor() {
             EditorView.updateListener.of(handleSelectionChange),
             scrollPastEnd(),
         ]
-        const langExt = loadLanguage(language.toLowerCase() as LanguageName)
+
+        // Map human-readable language names to CodeMirror language names
+        const languageMap: { [key: string]: string } = {
+            "javascript": "javascript",
+            "typescript": "typescript",
+            "python": "python",
+            "html": "html",
+            "css": "css",
+            "c++": "cpp",
+            "cpp": "cpp",
+            "java": "java",
+            "php": "php",
+            "go": "go",
+            "rust": "rust",
+        }
+
+        const mappedLanguage = languageMap[language.toLowerCase()] || language.toLowerCase()
+        const langExt = loadLanguage(mappedLanguage as LanguageName)
+
         if (langExt) {
             extensions.push(langExt)
         } else {
-            toast.error(
-                "Syntax highlighting is unavailable for this language. Please adjust the editor settings; it may be listed under a different name.",
-                {
-                    duration: 5000,
-                },
-            )
+            // Only show toast if it's not a basic text file
+            if (language.toLowerCase() !== "plaintext" && language.toLowerCase() !== "text") {
+                toast.error(
+                    `Syntax highlighting is unavailable for "${language}". Please adjust the editor settings.`,
+                    {
+                        duration: 5000,
+                        id: "lang-error-" + language // Prevent multiple toasts for same language
+                    },
+                )
+            }
         }
 
         setExtensions(extensions)
-    }, [filteredUsers, language, handleSelectionChange])
+    }, [language, handleSelectionChange])
 
     // Update remote users when filteredUsers changes
     useEffect(() => {
