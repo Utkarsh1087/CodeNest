@@ -1,8 +1,6 @@
 import { useFileSystem } from "@/context/FileContext"
-import { useViews } from "@/context/ViewContext"
 import { useState, useMemo } from "react"
 import { LuSearch, LuReplace, LuChevronRight, LuChevronDown } from "react-icons/lu"
-import cn from "classnames"
 
 interface SearchResult {
     fileId: string

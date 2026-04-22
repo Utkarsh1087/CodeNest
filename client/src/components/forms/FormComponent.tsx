@@ -6,7 +6,6 @@ import { ChangeEvent, FormEvent, useEffect, useRef } from "react"
 import { toast } from "react-hot-toast"
 import { useLocation, useNavigate } from "react-router-dom"
 import { v4 as uuidv4 } from "uuid"
-import { User } from "@/types/user"
 
 const FormComponent = () => {
     const location = useLocation()
@@ -57,7 +56,7 @@ const FormComponent = () => {
     useEffect(() => {
         // Auto-fill roomId from navigation state (invite links)
         if (location.state?.roomId && !currentUser.roomId) {
-            setCurrentUser((prev: User) => ({ ...prev, roomId: location.state.roomId }))
+            setCurrentUser({ ...currentUser, roomId: location.state.roomId })
             if (!currentUser.username) {
                 toast.success("Ready to join workspace")
             }

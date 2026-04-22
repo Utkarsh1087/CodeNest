@@ -1,11 +1,9 @@
 import { useFileSystem } from "@/context/FileContext"
 import Editor from "./Editor"
 import FileTab from "./FileTab"
-import { useViews } from "@/context/ViewContext"
 
 function EditorComponent() {
     const { openFiles } = useFileSystem()
-    const { isAIOpen } = useViews()
 
     if (openFiles.length <= 0) {
         return (
