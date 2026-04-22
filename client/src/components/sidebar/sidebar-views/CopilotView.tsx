@@ -1,12 +1,11 @@
-import { useCopilot, Message } from "@/context/CopilotContext"
+import { useCopilot } from "@/context/CopilotContext"
 import { useFileSystem } from "@/context/FileContext"
 import { useAppContext } from "@/context/AppContext"
 import { useSocket } from "@/context/SocketContext"
-import useResponsive from "@/hooks/useResponsive"
 import { SocketEvent } from "@/types/socket"
 import { ACTIVITY_STATE } from "@/types/app"
 import toast from "react-hot-toast"
-import { LuClipboardPaste, LuCopy, LuRepeat, LuSparkles, LuSend, LuTrash2, LuUser } from "react-icons/lu"
+import { LuClipboardPaste, LuCopy, LuSparkles, LuSend, LuTrash2, LuUser } from "react-icons/lu"
 import ReactMarkdown from "react-markdown"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism"
@@ -15,7 +14,6 @@ import { useEffect, useRef } from "react"
 
 function CopilotView() {
     const { socket } = useSocket()
-    const { viewHeight } = useResponsive()
     const { generateCode, messages, isRunning, input, setInput, setMessages } = useCopilot()
     const { activeFile, updateFileContent, setActiveFile } = useFileSystem()
     const { setActivityState } = useAppContext()
@@ -49,19 +47,6 @@ function CopilotView() {
         setActivityState(ACTIVITY_STATE.CODING)
         socket.emit(SocketEvent.FILE_UPDATED, { fileId: activeFile.id, newContent: content })
         toast.success("Pasted successfully")
-    }
-
-    const replaceCodeInFile = (text: string) => {
-        if (!activeFile) {
-            toast.error("Select a file first")
-            return
-        }
-        if (!window.confirm("Overwrite current file content?")) return
-        updateFileContent(activeFile.id, text)
-        setActiveFile({ ...activeFile, content: text })
-        setActivityState(ACTIVITY_STATE.CODING)
-        socket.emit(SocketEvent.FILE_UPDATED, { fileId: activeFile.id, newContent: text })
-        toast.success("Code replaced")
     }
 
     const handleKeyDown = (e: React.KeyboardEvent) => {

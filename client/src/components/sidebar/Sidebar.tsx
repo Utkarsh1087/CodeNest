@@ -1,42 +1,16 @@
 import SidebarButton from "@/components/sidebar/sidebar-views/SidebarButton"
-import { useAppContext } from "@/context/AppContext"
-import { useSocket } from "@/context/SocketContext"
 import { useViews } from "@/context/ViewContext"
 import useResponsive from "@/hooks/useResponsive"
-import useWindowDimensions from "@/hooks/useWindowDimensions"
-import { ACTIVITY_STATE } from "@/types/app"
-import { SocketEvent } from "@/types/socket"
 import { VIEWS } from "@/types/view"
-import { IoCodeSlash } from "react-icons/io5"
-import { MdOutlineDraw } from "react-icons/md"
 import cn from "classnames"
-import { useState } from 'react'
-
 function Sidebar() {
     const {
         activeView,
         isSidebarOpen,
         viewComponents,
         viewIcons,
-        setIsSidebarOpen,
     } = useViews()
     const { minHeightReached } = useResponsive()
-    const { activityState, setActivityState } = useAppContext()
-    const { socket } = useSocket()
-    const { isMobile } = useWindowDimensions()
-
-    const changeState = () => {
-        if (activityState === ACTIVITY_STATE.CODING) {
-            setActivityState(ACTIVITY_STATE.DRAWING)
-            socket.emit(SocketEvent.REQUEST_DRAWING)
-        } else {
-            setActivityState(ACTIVITY_STATE.CODING)
-        }
-
-        if (isMobile) {
-            setIsSidebarOpen(false)
-        }
-    }
 
     return (
         <aside className="flex w-full md:h-full md:max-h-full md:min-h-full md:w-auto md:gap-2 md:pl-2 md:pr-[2px] overflow-hidden">

@@ -8,7 +8,7 @@ import Split from "react-split"
 function SplitterComponent({ children }: { children: ReactNode }) {
     const { isSidebarOpen, isAIOpen } = useViews()
     const { isMobile, width } = useWindowDimensions()
-    const { setItem, getItem } = useLocalStorage()
+    const { setItem } = useLocalStorage()
 
     const getGutter = () => {
         const gutter = document.createElement("div")

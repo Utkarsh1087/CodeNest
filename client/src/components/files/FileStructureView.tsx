@@ -10,7 +10,7 @@ import { getIconClassName } from "@/utils/getIconClassName"
 import { Icon } from "@iconify/react"
 import cn from "classnames"
 import { MouseEvent, useEffect, useRef, useState } from "react"
-import { AiOutlineFolder, AiOutlineFolderOpen } from "react-icons/ai"
+
 import { MdDelete } from "react-icons/md"
 import { PiPencilSimpleFill } from "react-icons/pi"
 import {

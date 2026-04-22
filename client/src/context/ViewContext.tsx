@@ -7,7 +7,7 @@ import useWindowDimensions from "@/hooks/useWindowDimensions"
 import { VIEWS, ViewContext as ViewContextType } from "@/types/view"
 import { ReactNode, createContext, useContext, useState } from "react"
 import { IoSettingsOutline } from "react-icons/io5"
-import { LuFiles, LuSparkles, LuUsers, LuMessageSquare, LuSearch } from "react-icons/lu"
+import { LuFiles, LuUsers, LuMessageSquare, LuSearch } from "react-icons/lu"
 
 const ViewContext = createContext<ViewContextType | null>(null)
 

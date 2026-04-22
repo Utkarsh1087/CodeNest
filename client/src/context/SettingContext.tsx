@@ -28,6 +28,7 @@ const defaultSettings: Settings = {
     language: "Javascript",
     fontSize: 16,
     fontFamily: "Space Mono",
+    showGitHubCorner: true,
 }
 
 function SettingContextProvider({ children }: { children: ReactNode }) {
@@ -51,12 +52,17 @@ function SettingContextProvider({ children }: { children: ReactNode }) {
         storedSettings.fontFamily !== undefined
             ? storedSettings.fontFamily
             : defaultSettings.fontFamily
+    const storedShowGitHubCorner = 
+        storedSettings.showGitHubCorner !== undefined
+            ? storedSettings.showGitHubCorner
+            : defaultSettings.showGitHubCorner
 
 
     const [theme, setTheme] = useState<string>(storedTheme)
     const [language, setLanguage] = useState<string>(storedLanguage)
     const [fontSize, setFontSize] = useState<number>(storedFontSize)
     const [fontFamily, setFontFamily] = useState<string>(storedFontFamily)
+    const [showGitHubCorner, setShowGitHubCorner] = useState<boolean>(storedShowGitHubCorner)
 
 
     const resetSettings = () => {
@@ -64,7 +70,7 @@ function SettingContextProvider({ children }: { children: ReactNode }) {
         setLanguage(defaultSettings.language)
         setFontSize(defaultSettings.fontSize)
         setFontFamily(defaultSettings.fontFamily)
-
+        setShowGitHubCorner(defaultSettings.showGitHubCorner)
     }
 
     useEffect(() => {
@@ -74,9 +80,10 @@ function SettingContextProvider({ children }: { children: ReactNode }) {
             language,
             fontSize,
             fontFamily,
+            showGitHubCorner,
         }
         localStorage.setItem("settings", JSON.stringify(updatedSettings))
-    }, [theme, language, fontSize, fontFamily])
+    }, [theme, language, fontSize, fontFamily, showGitHubCorner])
 
     return (
         <SettingContext.Provider
@@ -89,6 +96,8 @@ function SettingContextProvider({ children }: { children: ReactNode }) {
                 setFontSize,
                 fontFamily,
                 setFontFamily,
+                showGitHubCorner,
+                setShowGitHubCorner,
                 resetSettings,
             }}
         >

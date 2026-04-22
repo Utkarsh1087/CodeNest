@@ -1,18 +1,11 @@
 import Users from "@/components/common/Users"
-import { useAppContext } from "@/context/AppContext"
-import { useSocket } from "@/context/SocketContext"
 import useResponsive from "@/hooks/useResponsive"
-import { USER_STATUS } from "@/types/user"
 import toast from "react-hot-toast"
 import { IoShareOutline } from "react-icons/io5"
 import { LuCopy } from "react-icons/lu"
-import { useNavigate } from "react-router-dom"
 
 function UsersView() {
-    const navigate = useNavigate()
     const { viewHeight } = useResponsive()
-    const { setStatus } = useAppContext()
-    const { socket } = useSocket()
 
     const copyURL = async () => {
         const url = window.location.href

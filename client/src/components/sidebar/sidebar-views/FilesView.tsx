@@ -12,7 +12,6 @@ import { toast } from "react-hot-toast"
 
 function FilesView() {
     const { downloadFilesAndFolders, updateDirectory } = useFileSystem()
-    const { viewHeight } = useResponsive()
     const { minHeightReached } = useResponsive()
     const [isLoading, setIsLoading] = useState(false)
 

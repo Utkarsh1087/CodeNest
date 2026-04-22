@@ -1,12 +1,11 @@
 import { useFileSystem } from "@/context/FileContext"
-import useResponsive from "@/hooks/useResponsive"
-import cn from "classnames"
 import Editor from "./Editor"
 import FileTab from "./FileTab"
+import { useViews } from "@/context/ViewContext"
 
 function EditorComponent() {
     const { openFiles } = useFileSystem()
-    const { minHeightReached } = useResponsive()
+    const { isAIOpen } = useViews()
 
     if (openFiles.length <= 0) {
         return (

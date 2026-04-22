@@ -15,8 +15,8 @@ interface SearchResult {
 }
 
 const SearchView = () => {
-    const { files, updateFileContent } = useFileSystem()
-    const { setIsSidebarOpen } = useViews()
+    const { fileStructure, updateFileContent } = useFileSystem()
+    // Remove unused setIsSidebarOpen
     const [searchTerm, setSearchTerm] = useState("")
     const [replaceTerm, setReplaceTerm] = useState("")
     const [expandedFiles, setExpandedFiles] = useState<Set<string>>(new Set())
@@ -57,9 +57,11 @@ const SearchView = () => {
             })
         }
 
-        searchInFiles(files)
+        if (fileStructure.children) {
+            searchInFiles(fileStructure.children)
+        }
         return searchResults
-    }, [files, searchTerm])
+    }, [fileStructure, searchTerm])
 
     const toggleFile = (id: string) => {
         const newSet = new Set(expandedFiles)
@@ -69,9 +71,9 @@ const SearchView = () => {
     }
 
     const handleReplaceAll = () => {
-        if (!searchTerm) return
+        if (!searchTerm || !fileStructure.children) return
         results.forEach(res => {
-            const file = findFileById(files, res.fileId)
+            const file = findFileById(fileStructure.children!, res.fileId)
             if (file && file.content) {
                 const newContent = file.content.replaceAll(searchTerm, replaceTerm)
                 updateFileContent(res.fileId, newContent)

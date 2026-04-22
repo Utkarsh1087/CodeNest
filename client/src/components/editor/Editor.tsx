@@ -25,7 +25,6 @@ function Editor() {
     const { activeFile, setActiveFile } = useFileSystem()
     const { theme, language, fontSize } = useSettings()
     const { socket } = useSocket()
-    const { viewHeight } = useResponsive()
     const [timeOut, setTimeOut] = useState(setTimeout(() => {}, 0))
     const filteredUsers = useMemo(
         () => users.filter((u) => u.username !== currentUser.username),
