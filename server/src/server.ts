@@ -22,7 +22,25 @@ mongoose.connect(MONGO_URI)
     .catch((err) => console.error("MongoDB connection error:", err))
 
 app.use(express.json())
-app.use(cors())
+const allowedOrigins = [
+	"http://localhost:5173",
+	"http://localhost:3000",
+	"http://127.0.0.1:5173",
+	"http://127.0.0.1:3000",
+	"https://code-nest-pi-five.vercel.app",
+];
+
+app.use(cors({
+	origin: (origin, callback) => {
+		if (!origin || allowedOrigins.includes(origin) || origin.includes("vercel.app")) {
+			callback(null, true);
+		} else {
+			callback(new Error("Not allowed by CORS"));
+		}
+	},
+	methods: ["GET", "POST"],
+	credentials: true
+}));
 app.use(express.static(path.join(__dirname, "public")))
 
 // New AI Chat Route (OpenRouter Integration with Streaming)
@@ -123,7 +141,15 @@ app.get("/", (req: Request, res: Response) => {
 const server = http.createServer(app)
 const io = new Server(server, {
 	cors: {
-		origin: "*",
+		origin: (origin, callback) => {
+			if (!origin || allowedOrigins.includes(origin) || origin.includes("vercel.app")) {
+				callback(null, true);
+			} else {
+				callback(new Error("Not allowed by CORS"));
+			}
+		},
+		methods: ["GET", "POST"],
+		credentials: true
 	},
 	maxHttpBufferSize: 1e8,
 	pingTimeout: 60000,
